@@ -5,8 +5,6 @@ from classes.env_loader import EnvLoader
 
 
 def launch_update():
-    print('ok')
-
     # -- Load .env file
     env_loader = EnvLoader()
     env_loader.load_env()
@@ -26,4 +24,3 @@ def launch_update():
 
 if __name__ == '__main__':
     launch_update()
-

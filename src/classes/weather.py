@@ -58,7 +58,7 @@ class Weather:
         condition = data.get('current', {}).get(
             'condition', {}).get('text', 'Not available')
         temp_c = data.get('current', {}).get('temp_c', 'N/A')
-        
+
         formatted_weather = (
             f"Location: {data.get('location', {}).get('name', 'Unknown')} | "
             f"Temperature: {temp_c}°C | "
