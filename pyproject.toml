@@ -9,7 +9,7 @@ readme = "README.md"
 auto-push = "auto_push.main:app"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3"
 typer = {extras = ["all"], version = "^0.9.0"}
 python-crontab = "^3.0.0"
 python-dotenv = "^1.0.0"

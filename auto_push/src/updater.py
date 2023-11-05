@@ -3,19 +3,25 @@ from classes.github import Github
 from classes.weather import Weather
 from classes.env_loader import EnvLoader
 
+# -- Load .env filec
+env_loader = EnvLoader()
+env_loader.load_env()
 
-def launch_update():
-    # -- Load .env file
-    env_loader = EnvLoader()
-    env_loader.load_env()
+# -- Create weather object
+weather = Weather()
 
-    # -- Make a request to get weather
-    weather = Weather()
+# -- Create Github object
+github = Github()
+
+
+def updater():
+    print('Updater as been call.')
+
+    # -- Make a request to get the current weather in bangkok.
     response = weather.get_weather()
     github_bio = weather.format_weather(response)
 
     # -- Make a request to GitHub
-    github = Github()
     github.update_bio(github_bio)
     github.update_status('Working on Github API.')
     notification.notify(
@@ -23,4 +29,4 @@ def launch_update():
 
 
 if __name__ == '__main__':
-    launch_update()
+    updater()

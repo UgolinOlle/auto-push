@@ -1,30 +1,25 @@
 import typer
-from crontab import CronTab
+import sys
 from pathlib import Path
-
-# -- Create cron object
-cron = CronTab(user="ugolin-olle")
+from crontab import CronTab
+from .src.updater import updater
 
 # -- Create CLI app
 app = typer.Typer()
 
+# -- Create scheduler
+scheduler = CronTab(user="ugolin-olle")
+
 
 @app.command()
 def launch():
-    job = cron.new(command=f'python {Path.cwd()}/src/updater.py')
+    job = scheduler.new(f"{sys.executable} {Path.cwd()}/auto_push/src/updater.py")
     job.minute.every(1)
-    cron.write()
-    typer.echo('Job has been launched successfully.')
+    scheduler.write()
 
 
 @app.command()
-def stop_all():
-    cron.remove_all()
-    cron.write()
-    typer.echo('All jobs have been removed.')
-
-
-@app.command()
-def show_all():
-    for job in cron:
-        type.echo(job)
+def stop():
+    scheduler.remove_all()
+    scheduler.write()
+    typer.echo('All cron job as been removed successfully.')
