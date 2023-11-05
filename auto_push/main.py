@@ -2,7 +2,7 @@ import typer
 import sys
 from pathlib import Path
 from crontab import CronTab
-from .src.updater import updater
+from auto_push.src.updater import updater
 
 # -- Create CLI app
 app = typer.Typer()
@@ -14,7 +14,7 @@ scheduler = CronTab(user="ugolin-olle")
 @app.command()
 def launch():
     job = scheduler.new(f"{sys.executable} {Path.cwd()}/auto_push/src/updater.py")
-    job.minute.every(1)
+    job.hour.every(6)
     scheduler.write()
 
 

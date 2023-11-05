@@ -1,7 +1,7 @@
 from plyer import notification
-from classes.github import Github
-from classes.weather import Weather
-from classes.env_loader import EnvLoader
+from auto_push.src.classes.github import Github
+from auto_push.src.classes.weather import Weather
+from auto_push.src.classes.env_loader import EnvLoader
 
 # -- Load .env filec
 env_loader = EnvLoader()
