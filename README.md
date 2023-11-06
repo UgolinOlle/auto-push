@@ -12,37 +12,81 @@
 
 Auto-Push is an automated tool designed to update your biography and GitHub status. It integrates weather features to enable dynamic updates based on weather conditions.
 
+## 🎯・Installation
+
+```sh
+pip3 install auto-push
+```
+
 ## 📚・Ressources
 
+- [Typer](https://typer.tiangolo.com/)
 - [Weather API](https://www.weatherapi.com/)
 - [Github API](https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28)
 
-## ⌨️・Usage
+## ⌨️・Setup & Usage
 
-To use Auto-Push, follow these steps:
+1. Add a personnal access token from <b>Settings/Developer Settings </b>:
 
-1. Clone the repository on your local machine.
+<img src="./assets/github_settings.png" alt="Github settings screenshot" />
 
-```sh
-git clone https://github.com/ugolinolle/auto-push
-```
-
-2. Install the necessary dependencies.
+2. Setup your access token with this command:
 
 ```sh
-pip install -r requirements.txt
+auto-push setup --key 1 --value [TOKEN]
 ```
 
-3. Configure your environment variables as specified in `.env.example`.
+3. Create and add an account from [Weather API](https://www.weatherapi.com/)
+
+4. Setup your api key from weather api with tis command:
+
+```sh
+auto-push setup --key 2 --value [API_KEY]
+```
+
+3. For launch github updater, use:
+
+```sh
+auto-push start
+```
+
+4. For see all command, use:
+
+```sh
+auto-push --help
+```
+
+## 🧑‍🤝‍🧑・Contributing
+
+To use Auto-Push in development, follow these steps:
+
+1. Fork the project.
+
+2. Install poetry.
+
+```sh
+curl -sSL https://install.python-poetry.org | python3 -
+```
+
+3. Create a branch with [conventionnal name](https://tilburgsciencehub.com/building-blocks/collaborate-and-share-your-work/use-github/naming-git-branches/).
+
+   - fix: `bugfix/the-bug-fixed`
+   - features: `feature/the-amazing-feature`
+   - test: `test/the-famous-test`
+   - hotfix `hotfix/oh-my-god-bro`
+   - wip `wip/the-work-name-in-progress`
+
+4. Configure your environment variables in `.env`.
 
 ```
 GITHUB_PERSONAL_ACCESS=TOKEN
 WEATHER_API_KEY=TOKEN
 ```
 
-4. Run the main script with
+4. Run the cli with
+
 ```sh
-python src/main.py
+python -m auto_push [COMMAND]
 ```
 
 ## Licence
