@@ -1,11 +1,6 @@
 from plyer import notification
 from auto_push.src.classes.github import Github
 from auto_push.src.classes.weather import Weather
-from auto_push.src.classes.env_loader import EnvLoader
-
-# -- Load .env file
-env_loader = EnvLoader()
-env_loader.load_env()
 
 # -- Create weather object
 weather = Weather()
