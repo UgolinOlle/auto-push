@@ -1,25 +1,22 @@
 import typer
-import sys
-from pathlib import Path
-from crontab import CronTab
-from auto_push.src.updater import updater
 
-# -- Create CLI app
-app = typer.Typer()
-
-# -- Create scheduler
-scheduler = CronTab(user="ugolin-olle")
+from auto_push.src.utils import print_version
+from auto_push.commands import cmd_checkup, cmd_setup, cmd_start, cmd_stop
 
 
-@app.command()
-def launch():
-    job = scheduler.new(f"{sys.executable} {Path.cwd()}/auto_push/src/updater.py")
-    job.hour.every(6)
-    scheduler.write()
+# -- Variables
+app = typer.Typer(rich_help_panel="rich")
+
+# -- Add all commands
+app.command()(cmd_checkup.checkup)
+app.command()(cmd_setup.setup)
+app.command()(cmd_start.start)
+app.command()(cmd_stop.stop)
 
 
-@app.command()
-def stop():
-    scheduler.remove_all()
-    scheduler.write()
-    typer.echo('All cron job as been removed successfully.')
+@app.callback()
+def main(version: bool = typer.Option(None, "--version", callback=print_version, is_eager=True)):
+    """
+    Run the application.
+    """
+    pass
