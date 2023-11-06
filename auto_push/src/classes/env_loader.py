@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+from rich import print
 
 
 class EnvLoader:
@@ -12,7 +13,10 @@ class EnvLoader:
         Loads environment variables from a .env file and validates them.
         """
         load_dotenv()
-        self.validate(os.environ)
+        try:
+            self.validate(os.environ)
+        except ValueError as e:
+            print(f"[bold red]Error: {e}[/bold red]")
 
     def validate(self, env: os._Environ[str]) -> None:
         """
@@ -22,9 +26,10 @@ class EnvLoader:
             env (os._Environ[str]): The environment variables to validate.
 
         Raises:
-            Exception: If required environment variables are missing.
+            ValueError: If required environment variables are missing.
         """
-        if not env.get("GITHUB_PERSONAL_ACCESS"):
-            raise Exception("Github access token hasn't been provided.")
-        if not env.get("WEATHER_API_KEY"):
-            raise Exception("Weather API key hasn't been provided.")
+        required_keys = ["GITHUB_PERSONAL_ACCESS", "WEATHER_API_KEY"]
+        for key in required_keys:
+            if not env.get(key):
+                raise ValueError(
+                    f"Required environment variable '{key}' is missing. Please set it in your .env file.")
