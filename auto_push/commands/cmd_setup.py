@@ -18,6 +18,7 @@ def setup(key: int = typer.Option(..., help="""
     Adds a new environment variable to the .env file.
 
     Parameters:
+    -----------
     key: The key of the environment variable to set.
     value: The value of the environment variable to set.
     """

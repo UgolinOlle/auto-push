@@ -15,7 +15,7 @@ scheduler = CronTab(user=current_user)
 @app.command(rich_help_panel="Commands")
 def start():
     """
-    [green]Create[/green] cron job to run the updater script every 6 hours.
+    Create cron job to run the updater script every 6 hours.
     """
     try:
         script_path = Path.cwd() / "auto_push" / "src" / "updater.py"

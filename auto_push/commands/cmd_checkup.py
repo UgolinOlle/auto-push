@@ -1,3 +1,4 @@
+import os
 import typer
 from pathlib import Path
 from rich import print
@@ -14,7 +15,7 @@ def checkup():
     Prints the current environment variable values set in the .env file.
     """
     try:
-        env_path = Path(__file__).parent / '..' / '.env'
+        env_path = Path(__file__).parent.parent.parent / '.env'
         if env_path.exists():
             print(
                 f"[bold underline blue]Current .env file contents:\n[/bold underline blue]")

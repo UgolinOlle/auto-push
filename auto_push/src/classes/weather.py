@@ -8,12 +8,14 @@ class Weather:
     A class to fetch weather information for a specific location using the Weather API.
 
     Attributes:
+    -----------
         location (str): The location for which to fetch the weather. Defaults to "Bangkok".
         base_url (str): The base URL for the Weather API.
         api_key (str): The API key for authenticating with the Weather API, read from the environment.
         url (str): The full URL to make the API request.
 
     Methods:
+    --------
         get_weather: Retrieves the current weather data for the location.
     """
 
@@ -31,9 +33,11 @@ class Weather:
         Fetches the current weather data from the Weather API for the specified location.
 
         Returns:
+        --------
             Dict[str, Any]: A dictionary containing the current weather data.
 
         Raises:
+        -------
             requests.RequestException: An error occurred during the API request.
         """
         try:
@@ -50,9 +54,11 @@ class Weather:
         Formats the weather data.
 
         Parameters:
+        -----------
             weather_data (dict): A dictionary containing weather data.
 
         Returns:
+        --------
             str: A formatted string with weather details and emojis.
         """
         condition = data.get('current', {}).get(

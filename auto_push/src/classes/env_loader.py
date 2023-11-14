@@ -23,9 +23,11 @@ class EnvLoader:
         Validates the necessary environment variables.
 
         Parameters:
+        -----------
             env (os._Environ[str]): The environment variables to validate.
 
         Raises:
+        -------
             ValueError: If required environment variables are missing.
         """
         required_keys = ["GITHUB_PERSONAL_ACCESS", "WEATHER_API_KEY"]

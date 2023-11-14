@@ -44,13 +44,13 @@ auto-push setup --key 1 --value [TOKEN]
 auto-push setup --key 2 --value [API_KEY]
 ```
 
-3. For launch github updater, use:
+5. For launch github updater, use:
 
 ```sh
 auto-push start
 ```
 
-4. For see all command, use:
+6. For see all command, use:
 
 ```sh
 auto-push --help
@@ -83,16 +83,22 @@ GITHUB_PERSONAL_ACCESS=TOKEN
 WEATHER_API_KEY=TOKEN
 ```
 
-4. Run the cli with
+5. Run the cli with
 
 ```sh
 python -m auto_push [COMMAND]
 ```
 
-## Licence
+## 🎯・Roadmap
+
+- [ ] Implement a new printer.
+- [ ] Implement custom text.
+- [ ] Add update status while typing.
+
+## 📑・Licence
 
 Ce projet est sous licence MIT. Pour plus d'informations, veuillez consulter le fichier [LICENSE](./LICENSE).
 
-## Contact
+## 📩・Contact
 
 Pour toute question ou collaboration, n'hésitez pas à me contacter par [email](mailto:hello@ugolin-olle.com) ou [LinkedIn](https://linkedin.com/in/ugolin-olle)

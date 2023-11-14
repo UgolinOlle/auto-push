@@ -13,6 +13,7 @@ class Github:
     It also monitors keyboard activity to set the user's status accordingly.
 
     Attributes:
+    -----------
         username (str): Github username for authentication.
         base_url (str): Base URL for the Github API.
         base_grapql_url (str): Base URL for the Github GraphQL API.
@@ -39,12 +40,15 @@ class Github:
         Updates the biography of the Github user's profile.
 
         Parameters:
+        -----------
             content (str): The new biography content to be set.
 
         Returns:
+        --------
             Dict[str, Any]: The JSON response from the Github API.
 
         Raises:
+        -------
             requests.HTTPError: If the HTTP request results in an unsuccessful status code.
         """
         headers = {'Content-Type': 'application/json'}
@@ -59,12 +63,15 @@ class Github:
         Updates the status of the Github user's profile.
 
         Parameters:
+        -----------
             content (str): The new status message to be set.
 
         Returns:
+        --------
             Dict[str, Any]: The JSON response from the Github GraphQL API.
 
         Raises:
+        -------
             requests.HTTPError: If the HTTP request results in an unsuccessful status code.
         """
         query = """
