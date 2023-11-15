@@ -2,7 +2,7 @@ import json
 import os
 from typing import Any
 
-from auto_push.src.constants import STORAGE_LOCATION_UNIX, STORAGE_LOCATION_WINDOWS, STORAGE_LOCATION_LINUX
+from auto_push.src.constants import STORAGE_LOCATION_UNIX, STORAGE_LOCATION_WINDOWS, STORAGE_LOCATION_LINUX, STORAGE_BASIC_OPTS
 from auto_push.src.utils import get_os_system
 
 
@@ -29,14 +29,6 @@ class StorageManager:
         self.location: str = ""
         self.storage_file: str = "auto_push.json"
 
-    def init_storage(self) -> None:
-        """
-        Initializes the storage by creating a directory and a JSON file based on the operating system.
-
-        Creates the necessary directory structure and initializes a JSON file with
-        default data if it doesn't exist. If the file exists, it ensures that the 'app_init'
-        key is set to True.
-        """
         if self.system == "Darwin":
             self.location = STORAGE_LOCATION_UNIX
         elif self.system == "Windows":
@@ -44,20 +36,52 @@ class StorageManager:
         elif self.system == "Linux":
             self.location = STORAGE_LOCATION_LINUX
 
-        os.makedirs(self.location, exist_ok=True)
+    def init_storage(self) -> None:
+        """
+        Initializes the storage by creating a directory and a JSON file based on the operating system.
 
+        Creates the necessary directory structure and initializes a JSON file with
+        default data if it doesn't exist. If the file exists, it ensures that the 'app_init',
+        'weather_api', 'github_status' and 'keyboard_handler' key is set.
+        """
+        # -- Create var file
+        if not os.path.exists(self.location):
+            os.mkdir(self.location)
+
+        # -- Create the file
         full_file_path = os.path.join(self.location, self.storage_file)
 
         if not os.path.exists(full_file_path):
             with open(full_file_path, 'w') as file:
-                json.dump({"app_init": True}, file)
-        else:
-            with open(full_file_path, 'r+') as file:
-                data = json.load(file)
-                data["app_init"] = True
-                file.seek(0)
+                json.dump(STORAGE_BASIC_OPTS, file)
+
+    def fix_storage(self) -> None:
+        """
+        Checks and updates the storage file with default options.
+
+        This function iterates over the key-value pairs in STORAGE_BASIC_OPTS and
+        ensures that they are present and correct in the storage file. If a key is missing
+        or its value differs from the expected one, the function updates the storage file
+        with the default value from STORAGE_BASIC_OPTS.
+
+        After checking and potentially updating the data, if any changes have been made,
+        the function rewrites the storage file with the updated data.
+        """
+        full_file_path = os.path.join(self.location, self.storage_file)
+
+        with open(full_file_path, "r+") as file:
+            data = json.load(file)
+            updated = False
+
+            for opt_key, opt_value in STORAGE_BASIC_OPTS.items():
+                if opt_key not in data or data[opt_key] != opt_value:
+                    data[opt_key] = opt_value
+                    updated = True
+
+            if updated:
+                file.seek(0)  # Go back to the start of the file
+                file.truncate()  # Truncate the file to overwrite it
                 json.dump(data, file)
-                file.truncate()
 
     def set_data(self, key: str, value: Any) -> None:
         """
