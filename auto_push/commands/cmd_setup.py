@@ -1,17 +1,18 @@
 import typer
 from pathlib import Path
 from rich import print
-
+from auto_push.src.classes.storage_manager import StorageManager
 
 # -- Variables
 app = typer.Typer(rich_help_panel="rich")
+storage_manager = StorageManager()
 
 
 @app.command(rich_help_panel="Utils & Configs")
 def setup(key: int = typer.Option(..., help="""
                                   The environment variable key.
-                                  1: Gitub personnal access token
-                                  2: Weather API key
+                                  1: Add Gitub personnal access token
+                                  2: Add Weather API key
                                   """),
           value: str = typer.Option(..., help="The environment variable value")):
     """
@@ -31,6 +32,7 @@ def setup(key: int = typer.Option(..., help="""
                 f.write(f"GITHUB_PERSONAL_ACCESS={value}\n")
             elif key == 2:
                 f.write(f"WEATHER_API_KEY={value}\n")
+                storage_manager.set_data("weather_api", True)
             elif key != 1 or key != 2:
                 print(
                     f"[bold red]An error occurred, {key} is not a good configuration key.[/bold red]")
