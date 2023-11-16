@@ -4,6 +4,7 @@ from rich import print
 
 from auto_push.src.classes.env_loader import EnvLoader
 from auto_push.src.classes.github import Github
+from auto_push.src.classes.storage_manager import StorageManager
 from auto_push.src.classes.weather import Weather
 
 # -- Load .env file
@@ -13,6 +14,7 @@ env_loader.load_env()
 # -- Create all object
 weather = Weather()
 github = Github()
+storage_manager = StorageManager()
 
 
 def updater():
@@ -29,9 +31,18 @@ def updater():
     """
 
     try:
-        # -- Make a request to get the current weather in Bangkok.
-        response = weather.get_weather()
-        github_bio = weather.format_weather(response)
+        github_bio_custom_content = storage_manager.get_data(
+            "github_bio_custom_content")
+        weather_api = storage_manager.get_data("weather_api")
+
+        if github_bio_custom_content is True and weather_api is False:
+            github_bio = storage_manager.get_data("github_bio_content")
+        elif github_bio_custom_content is False and weather_api is True:
+            # -- Make a request to get the current weather in Bangkok.
+            response = weather.get_weather()
+            github_bio = weather.format_weather(response)
+        else:
+            print("[bold red]There is an error in the configuration file. You cannot have custom content and weather api set in same time.[/bold red]")
 
         # -- Update GitHub bio with the weather information
         github.update_bio(github_bio)
@@ -46,7 +57,7 @@ def updater():
         )
     except Exception as e:
         print(
-            f"[bold underline red]An error occurred:[/bold underline red]\n\n[bold red]{e}[/bold red]")
+            f"[bold red]An error occurred during update Github bio. Support as been already informed.[/bold red]")
 
 
 if __name__ == '__main__':
