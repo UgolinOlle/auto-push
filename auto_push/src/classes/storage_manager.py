@@ -14,13 +14,12 @@ class StorageManager:
     and provides methods to set and get data in a JSON file.
 
     Attributes:
-    -----------
-    system : str
-        The name of the operating system.
-    location : str
-        The file path where the storage will be initialized.
-    storage_file : str
-        The name of the JSON file used for storage.
+        system : str
+            The name of the operating system.
+        location : str
+            The file path where the storage will be initialized.
+        storage_file : str
+            The name of the JSON file used for storage.
     """
 
     def __init__(self) -> None:
@@ -35,6 +34,7 @@ class StorageManager:
             self.location = STORAGE_LOCATION_WINDOWS
         elif self.system == "Linux":
             self.location = STORAGE_LOCATION_LINUX
+        self.set_data("location", self.location)
 
     def init_storage(self) -> None:
         """
@@ -87,12 +87,11 @@ class StorageManager:
         """
         Sets the value of a specified key in the JSON storage file.
 
-        Parameters:
-        -----------
-        key : str
-            The key for which the value needs to be set.
-        value : Any
-            The value to be set for the given key.
+        Attributes:
+            key : str
+                The key for which the value needs to be set.
+            value : Any
+                The value to be set for the given key.
 
         This method will update the JSON file with the new key-value pair.
         If the key already exists, its value will be updated.
@@ -106,19 +105,20 @@ class StorageManager:
             json.dump(data, file)
             file.truncate()
 
+    def delete_data(self, key: str) -> None:
+        pass
+
     def get_data(self, key: str) -> Any:
         """
         Retrieves the value for a specified key from the JSON storage file.
 
-        Parameters:
-        -----------
-        key : str
-            The key for which the value is to be retrieved.
+        Attributes:
+            key : str
+                The key for which the value is to be retrieved.
 
         Returns:
-        --------
-        Any
-            The value associated with the specified key. Returns None if the key does not exist.
+            Any
+                The value associated with the specified key. Returns None if the key does not exist.
         """
         full_file_path = os.path.join(self.location, self.storage_file)
 
