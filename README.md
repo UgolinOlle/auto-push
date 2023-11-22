@@ -28,6 +28,9 @@ pip3 install auto-push
 
 1. Add a personnal access token from <b>Settings/Developer Settings </b>:
 
+- Add `repo` authorization.
+- Add `user` authorization.
+
 <img src="./assets/github_settings.png" alt="Github settings screenshot" />
 
 2. Setup your access token with this command:
