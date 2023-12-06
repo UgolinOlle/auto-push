@@ -1,8 +1,9 @@
-import os
-import requests
 import json
-from requests.auth import HTTPBasicAuth
+import os
 from typing import Any, Dict
+
+import requests
+from requests.auth import HTTPBasicAuth
 
 
 class Github:
@@ -87,5 +88,31 @@ class Github:
         """ % content
         response = requests.post(url=self.base_grapql_url, json={
             "query": query}, headers=self.headers)
+        response.raise_for_status()
+        return response.json()
+
+    def create_issue(self, title: str, body: str, labels: list = []) -> Dict[str, Any]:
+        """
+        Creates a new issue in the specified repository.
+
+        Parameters:
+            repository (str): The repository to create the issue in, formatted as 'username/repo'.
+            title (str): The title of the issue.
+            body (str): The detailed description of the issue.
+            labels (list): A list of labels to attach to the issue.
+
+        Returns:
+            Dict[str, Any]: The JSON response from the Github API.
+
+        Raises:
+            requests.HTTPError: If the HTTP request results in an unsuccessful status code.
+        """
+        url = f"{self.base_url}/repos/ugolinolle/auto-push/issues"
+        data = {
+            "title": title,
+            "body": body,
+            "labels": labels
+        }
+        response = requests.post(url, auth=self.auth, json=data, headers=self.headers)
         response.raise_for_status()
         return response.json()
