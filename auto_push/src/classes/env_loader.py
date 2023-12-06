@@ -1,17 +1,34 @@
 import os
-
 from dotenv import load_dotenv
 from rich import print
 
 
 class EnvLoader:
     """
-    Class for loading and validating environment variables.
+    A class dedicated to loading and validating environment variables from a .env file.
+
+    This class is responsible for ensuring that all necessary environment variables are correctly loaded into the application's environment. It provides functionality to load variables from a .env file and validate their presence.
+
+    Methods:
+    --------
+    load_env():
+        Loads environment variables from a .env file and validates them.
+
+    validate(env):
+        Validates the necessary environment variables to ensure they are present.
     """
 
     def load_env(self) -> None:
         """
-        Loads environment variables from a .env file and validates them.
+        Loads environment variables from a .env file and validates their presence.
+
+        This method uses the 'dotenv' library to load environment variables from a .env file located in the application's root directory. After loading the variables, it calls the 'validate' method to ensure all required variables are present.
+
+        If a required environment variable is missing, it prints an error message using the 'rich' library for better formatting.
+
+        Raises:
+        -------
+        ValueError: If any required environment variables are missing.
         """
         load_dotenv()
         try:
@@ -21,15 +38,17 @@ class EnvLoader:
 
     def validate(self, env: os._Environ[str]) -> None:
         """
-        Validates the necessary environment variables.
+        Validates the presence of necessary environment variables.
+
+        This method checks for the existence of all required environment variables. The list of required variables is defined within the method. If any of these variables are missing, a ValueError is raised with a descriptive message.
 
         Parameters:
         -----------
-            env (os._Environ[str]): The environment variables to validate.
+        env (os._Environ[str]): The environment variables dictionary to validate.
 
         Raises:
         -------
-            ValueError: If required environment variables are missing.
+        ValueError: If any required environment variables are not found in 'env'.
         """
         required_keys = ["GITHUB_PERSONAL_ACCESS", "WEATHER_API_KEY"]
         for key in required_keys:
