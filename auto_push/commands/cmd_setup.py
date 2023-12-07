@@ -24,7 +24,7 @@ def setup(key: int = typer.Option(..., help="""
     value: The value of the environment variable to set.
     """
     try:
-        env_path = Path(__file__).parent / '..' / '.env'
+        env_path = Path(__file__).parent / '..'/ '..' / '.env'
         if not env_path.exists():
             env_path.touch()
         with open(env_path, 'a') as f:
