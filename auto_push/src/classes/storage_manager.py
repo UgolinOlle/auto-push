@@ -8,22 +8,30 @@ from auto_push.src.utils import get_os_system
 
 class StorageManager:
     """
-    A class used to manage storage for the auto_push application.
+    Manages storage for the auto_push application, handling file operations for data persistence.
 
-    This class is responsible for initializing storage based on the operating system,
-    and provides methods to set and get data in a JSON file.
+    This class is designed to manage the storage of application settings and configurations in a JSON file. It initializes the storage based on the operating system, providing methods for setting, getting, and fixing data.
 
     Attributes:
-        system : str
-            The name of the operating system.
-        location : str
-            The file path where the storage will be initialized.
-        storage_file : str
-            The name of the JSON file used for storage.
+    -----------
+    system (str): The name of the operating system the application is running on.
+    location (str): The file path for storage initialization.
+    storage_file (str): The name of the JSON file used for storing application data.
+
+    Methods:
+    --------
+    init_storage(): Initializes the storage file and directory.
+    fix_storage(): Ensures the storage file contains all necessary default options.
+    set_data(key, value): Updates or adds a key-value pair in the storage file.
+    get_data(key): Retrieves the value associated with a key from the storage file.
     """
 
     def __init__(self) -> None:
-        """Initializes the StorageManager with system, location, and storage_file attributes."""
+        """
+        Initializes the StorageManager by setting the system, location, and storage_file attributes.
+
+        Based on the operating system, it determines the appropriate storage location and sets the path for the storage file. It also ensures that the storage location is set in the storage file.
+        """
         self.system: str = get_os_system()
         self.location: str = ""
         self.storage_file: str = "auto_push.json"
@@ -38,11 +46,9 @@ class StorageManager:
 
     def init_storage(self) -> None:
         """
-        Initializes the storage by creating a directory and a JSON file based on the operating system.
+        Initializes the storage by creating a directory and a JSON file.
 
-        Creates the necessary directory structure and initializes a JSON file with
-        default data if it doesn't exist. If the file exists, it ensures that the 'app_init',
-        'weather_api', 'github_status' and 'keyboard_handler' key is set.
+        Depending on the operating system, it creates the necessary directory structure and initializes a JSON file with default data. If the file already exists, it checks for the presence of key settings and adds them if they are missing.
         """
         # -- Create var file
         if not os.path.exists(self.location):
@@ -59,13 +65,7 @@ class StorageManager:
         """
         Checks and updates the storage file with default options.
 
-        This function iterates over the key-value pairs in STORAGE_BASIC_OPTS and
-        ensures that they are present and correct in the storage file. If a key is missing
-        or its value differs from the expected one, the function updates the storage file
-        with the default value from STORAGE_BASIC_OPTS.
-
-        After checking and potentially updating the data, if any changes have been made,
-        the function rewrites the storage file with the updated data.
+        Iterates over the default options defined in STORAGE_BASIC_OPTS and ensures they are present in the storage file. If any key is missing or its value differs from the default, the storage file is updated accordingly.
         """
         full_file_path = os.path.join(self.location, self.storage_file)
 
@@ -85,16 +85,14 @@ class StorageManager:
 
     def set_data(self, key: str, value: Any) -> None:
         """
-        Sets the value of a specified key in the JSON storage file.
+        Sets a specified value for a given key in the storage file.
 
-        Attributes:
-            key : str
-                The key for which the value needs to be set.
-            value : Any
-                The value to be set for the given key.
+        Parameters:
+        -----------
+        key (str): The key for which the value needs to be updated or added.
+        value (Any): The value to be set for the specified key.
 
-        This method will update the JSON file with the new key-value pair.
-        If the key already exists, its value will be updated.
+        Updates the storage file with the new key-value pair, overwriting the value if the key already exists.
         """
         full_file_path = os.path.join(self.location, self.storage_file)
 
@@ -106,19 +104,28 @@ class StorageManager:
             file.truncate()
 
     def delete_data(self, key: str) -> None:
+        """
+        Deletes a specified key and its associated value from the storage file.
+
+        Parameters:
+        -----------
+        key (str): The key to be deleted from the storage file.
+
+        If the key exists, it is removed from the storage file along with its value.
+        """
         pass
 
     def get_data(self, key: str) -> Any:
         """
-        Retrieves the value for a specified key from the JSON storage file.
+        Retrieves the value associated with a specified key from the storage file.
 
-        Attributes:
-            key : str
-                The key for which the value is to be retrieved.
+        Parameters:
+        -----------
+        key (str): The key whose value is to be retrieved.
 
         Returns:
-            Any
-                The value associated with the specified key. Returns None if the key does not exist.
+        --------
+        Any: The value associated with the specified key. Returns None if the key does not exist in the storage file.
         """
         full_file_path = os.path.join(self.location, self.storage_file)
 

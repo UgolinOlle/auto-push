@@ -8,24 +8,30 @@ from requests.auth import HTTPBasicAuth
 
 class Github:
     """
-    A class to interact with the Github API for updating user profile information.
+    A class to interact with the Github API for managing user profile information and issues.
 
-    This class provides methods to update the biography and status of a Github user's profile.
-    It also monitors keyboard activity to set the user's status accordingly.
+    This class encapsulates methods for updating the biography and status of a Github user's profile and for creating issues in a specified repository. It handles authentication and provides a simplified interface for making specific Github API calls.
 
     Attributes:
     -----------
-        username (str): Github username for authentication.
-        base_url (str): Base URL for the Github API.
-        base_grapql_url (str): Base URL for the Github GraphQL API.
-        auth (HTTPBasicAuth): Authentication object with credentials.
+    username (str): Github username used for authentication.
+    base_url (str): Base URL for the Github API.
+    base_grapql_url (str): Base URL for the Github GraphQL API.
+    auth (HTTPBasicAuth): Authentication object with credentials.
+
+    Methods:
+    --------
+    update_bio(content): Updates the biography of the Github user's profile.
+    update_status(content): Updates the status of the Github user's profile.
+    create_issue(title, body, labels): Creates a new issue in a specified repository.
     """
 
     def __init__(self) -> None:
         """
-        Initializes the Github object with authentication details and starts keyboard activity monitoring.
+        Initializes the Github object with authentication details.
+
+        Sets up the authentication credentials for accessing the Github API using a personal access token stored in environment variables. Configures the base URLs for standard and GraphQL API endpoints.
         """
-        # API configuration
         self.username: str = "ugolinolle"
         self.base_url: str = "https://api.github.com"
         self.base_grapql_url: str = "https://api.github.com/graphql"
@@ -40,17 +46,19 @@ class Github:
         """
         Updates the biography of the Github user's profile.
 
+        Sends a PATCH request to the Github API to update the biography section of the user's profile.
+
         Parameters:
         -----------
-            content (str): The new biography content to be set.
+        content (str): The new biography content to be set.
 
         Returns:
         --------
-            Dict[str, Any]: The JSON response from the Github API.
+        Dict[str, Any]: The JSON response from the Github API.
 
         Raises:
         -------
-            requests.HTTPError: If the HTTP request results in an unsuccessful status code.
+        requests.HTTPError: If the HTTP request results in an unsuccessful status code.
         """
         headers = {'Content-Type': 'application/json'}
         data = {'bio': content}
@@ -63,17 +71,19 @@ class Github:
         """
         Updates the status of the Github user's profile.
 
+        Sends a POST request to the Github GraphQL API to update the user's status message.
+
         Parameters:
         -----------
-            content (str): The new status message to be set.
+        content (str): The new status message to be set.
 
         Returns:
         --------
-            Dict[str, Any]: The JSON response from the Github GraphQL API.
+        Dict[str, Any]: The JSON response from the Github GraphQL API.
 
         Raises:
         -------
-            requests.HTTPError: If the HTTP request results in an unsuccessful status code.
+        requests.HTTPError: If the HTTP request results in an unsuccessful status code.
         """
         query = """
             mutation {
@@ -95,17 +105,21 @@ class Github:
         """
         Creates a new issue in the specified repository.
 
+        Sends a POST request to the Github API to create a new issue in the 'ugolinolle/auto-push' repository.
+
         Parameters:
-            repository (str): The repository to create the issue in, formatted as 'username/repo'.
-            title (str): The title of the issue.
-            body (str): The detailed description of the issue.
-            labels (list): A list of labels to attach to the issue.
+        -----------
+        title (str): The title of the issue.
+        body (str): The detailed description of the issue.
+        labels (list): A list of labels to attach to the issue.
 
         Returns:
-            Dict[str, Any]: The JSON response from the Github API.
+        --------
+        Dict[str, Any]: The JSON response from the Github API.
 
         Raises:
-            requests.HTTPError: If the HTTP request results in an unsuccessful status code.
+        -------
+        requests.HTTPError: If the HTTP request results in an unsuccessful status code.
         """
         url = f"{self.base_url}/repos/ugolinolle/auto-push/issues"
         data = {
@@ -113,6 +127,7 @@ class Github:
             "body": body,
             "labels": labels
         }
-        response = requests.post(url, auth=self.auth, json=data, headers=self.headers)
+        response = requests.post(
+            url, auth=self.auth, json=data, headers=self.headers)
         response.raise_for_status()
         return response.json()
