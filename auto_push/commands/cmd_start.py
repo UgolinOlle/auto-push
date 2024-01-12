@@ -1,8 +1,9 @@
 import os
 import sys
+from pathlib import Path
+
 import typer
 from crontab import CronTab
-from pathlib import Path
 from rich import print
 
 from auto_push.src.classes.storage_manager import StorageManager
@@ -10,8 +11,8 @@ from auto_push.src.classes.storage_manager import StorageManager
 # -- Variables
 app = typer.Typer(rich_help_panel="rich")
 storage_manager = StorageManager()
-current_user = os.getlogin()
-scheduler = CronTab(user=current_user)
+# current_user = os.getlogin()
+scheduler = CronTab(user=True)
 
 
 def github_update(minute: int = 0, hour: int = 0, day: int = 0, month: int = 0):
