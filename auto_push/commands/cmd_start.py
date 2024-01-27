@@ -34,11 +34,13 @@ def github_update(minute: int = 0, hour: int = 0, day: int = 0, month: int = 0):
 
 
 @app.command()
-def start(content: str = typer.Option("", help="Content to set in your Github bio"),
-          minute: int = typer.Option(0, help="Minute for scheduling"),
-          hour: int = typer.Option(6, help="Hour for scheduling"),
-          day: int = typer.Option(0, help="Day for scheduling"),
-          month: int = typer.Option(0, help="Month for scheduling")):
+def start(
+    content: str = typer.Option("", help="Content to set in your Github bio"),
+    minute: int = typer.Option(0, help="Minute for scheduling"),
+    hour: int = typer.Option(6, help="Hour for scheduling"),
+    day: int = typer.Option(0, help="Day for scheduling"),
+    month: int = typer.Option(0, help="Month for scheduling"),
+):
     """
     Create or reset a cron job to run the updater script.
 
@@ -60,27 +62,29 @@ def start(content: str = typer.Option("", help="Content to set in your Github bi
             storage_manager.set_data("github_bio_custom_content", False)
             storage_manager.set_data("weather_api", True)
         if user_job is not True:
-            github_update(minute=minute,
-                          hour=hour, day=day, month=month)
+            github_update(minute=minute, hour=hour, day=day, month=month)
             storage_manager.set_data("github_cron_tab", True)
             print(
-                '[bold green]Github bio update has been set successfully.[/bold green]')
+                "[bold green]Github bio update has been set successfully.[/bold green]"
+            )
         elif user_job is None:
             print(
-                '[bold red]An error occured in your configuration file. Automatically reset cli config...[/bold red]')
+                "[bold red]An error occured in your configuration file. Automatically reset cli config...[/bold red]"
+            )
             storage_manager.fix_storage()
             print(
-                '[bold green]CLI configuration as been reset successfully.[/bold green]'
+                "[bold green]CLI configuration as been reset successfully.[/bold green]"
             )
         else:
-            print('[bold yellow]Github bio update is already setup.[/bold yellow]')
+            print("[bold yellow]Github bio update is already setup.[/bold yellow]")
             reset = typer.prompt("Do you want to reset ? (yes/no)")
-            if reset.lower() == 'yes':
+            if reset.lower() == "yes":
                 scheduler.remove_all(comment="1")
-                github_update(minute=minute,
-                              hour=hour, day=day, month=month)
+                github_update(minute=minute, hour=hour, day=day, month=month)
                 print(
-                    '[bold green]Github bio update has been reset successfully.[/bold green]'
+                    "[bold green]Github bio update has been reset successfully.[/bold green]"
                 )
     except Exception as e:
-        print(f"[bold red]An error occurred while setting up the cron job. Sorry for this, we already send a message to support.[/bold red]")
+        print(
+            f"[bold red]An error occurred while setting up the cron job. Sorry for this, we already send a message to support.[/bold red]"
+        )
