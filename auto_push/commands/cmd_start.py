@@ -43,13 +43,6 @@ def start(
 ):
     """
     Create or reset a cron job to run the updater script.
-
-    Parameters:
-        content: The content of your Github bio.
-        minute: The minute when the cron job should run. Defaults to 0.
-        hour: The hour when the cron job should run. Defaults to 6.
-        day: The day of the month when the cron job should run. Defaults to 0 (every day).
-        month: The month when the cron job should run. Defaults to 0 (every month).
     """
     try:
         user_job: str = storage_manager.get_data("github_cron_tab")
