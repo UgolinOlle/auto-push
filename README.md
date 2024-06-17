@@ -1,5 +1,5 @@
 <div>
-    <image src="./assets/banner.png" />
+    <image src="./.github/assets/banner.png" />
 </div>
 
 # Auto-Push Project
