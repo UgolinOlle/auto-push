@@ -1,22 +1,27 @@
-
 package cmd
 
 import (
-    "fmt"
-    "os"
+	"fmt"
+	"os"
 
-    "github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
-    Use:   "github-cli",
-    Short: "A CLI to update GitHub profile",
-    Long:  `A Command Line Interface to update GitHub profile information such as name and bio.`,
+	Use:   "auto-push",
+	Short: "A CLI tool to update your GitHub profile",
+	Long: `Auto-push is a CLI tool that helps you easily update your GitHub profile status with a custom message and emoji.
+	
+Examples:
+  auto-push profile --name "John Doe" --bio "Software Engineer"
+  auto-push status --message "Working from home" --emoji ":house_with_garden:"
+  auto-push status -m "In a meeting" -e ":speech_balloon:"`,
 }
 
 func Execute() {
-    if err := rootCmd.Execute(); err != nil {
-        fmt.Println(err)
-        os.Exit(1)
-    }
+	rootCmd.CompletionOptions.DisableDefaultCmd = true
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 }
